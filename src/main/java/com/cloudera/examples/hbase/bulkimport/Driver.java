@@ -12,6 +12,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
 
 /**
  * HBase bulk import example<br>
@@ -25,6 +26,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class Driver {
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
+    args = new GenericOptionsParser(conf, args).getRemainingArgs();
 
     /*
      * NBA Final 2010 game 1 tip-off time (seconds from epoch) 
@@ -54,9 +56,5 @@ public class Driver {
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
     job.waitForCompletion(true);
-
-    // Load generated HFiles into table
-    LoadIncrementalHFiles loader = new LoadIncrementalHFiles(conf);
-    loader.doBulkLoad(new Path(args[1]), hTable);
   }
 }
