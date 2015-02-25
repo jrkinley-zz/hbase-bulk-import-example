@@ -51,35 +51,19 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-common</artifactId>
-			<version>2.0.0-cdh4.3.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-core</artifactId>
-			<version>2.0.0-mr1-cdh4.3.0</version>
+			<artifactId>hadoop-client</artifactId>
+			<version>2.5.0-cdh5.3.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase</artifactId>
-			<version>0.94.6-cdh4.3.0</version>
+			<artifactId>hbase-server</artifactId>
+			<version>0.98.6-cdh5.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.cloudera.hadoop</groupId>
-			<artifactId>hadoop-mrunit</artifactId>
-			<version>0.20.2-737</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.opencsv</groupId>

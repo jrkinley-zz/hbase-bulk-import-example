@@ -6,7 +6,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
-import org.apache.hadoop.hbase.mapreduce.HFileOutputFormat;
+import org.apache.hadoop.hbase.mapreduce.HFileOutputFormat2;
 import org.apache.hadoop.hbase.mapreduce.LoadIncrementalHFiles;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -38,7 +38,7 @@ public class Driver {
     // Load hbase-site.xml 
     HBaseConfiguration.addHbaseResources(conf);
 
-    Job job = new Job(conf, "HBase Bulk Import Example");
+    Job job = Job.getInstance(conf, "HBase Bulk Import Example");
     job.setJarByClass(HBaseKVMapper.class);
 
     job.setMapperClass(HBaseKVMapper.class);
@@ -47,14 +47,21 @@ public class Driver {
 
     job.setInputFormatClass(TextInputFormat.class);
 
-    HTable hTable = new HTable(args[2]);
+    HTable hTable = new HTable(conf, args[2]);
     
     // Auto configure partitioner and reducer
-    HFileOutputFormat.configureIncrementalLoad(job, hTable);
+    HFileOutputFormat2.configureIncrementalLoad(job, hTable);
 
     FileInputFormat.addInputPath(job, new Path(args[0]));
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
     job.waitForCompletion(true);
+    
+    if (args.length>=4 && args[3].equals("doimport")) {
+    	// Load generated HFiles into table
+    	LoadIncrementalHFiles loader = new LoadIncrementalHFiles(conf);
+        loader.doBulkLoad(new Path(args[1]), hTable);
+    }
+    
   }
 }
