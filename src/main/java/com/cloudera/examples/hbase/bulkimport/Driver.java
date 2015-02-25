@@ -56,5 +56,12 @@ public class Driver {
     FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
     job.waitForCompletion(true);
+    
+    if (args.length>=4 && args[3].equals("doimport")) {
+    	// Load generated HFiles into table
+    	LoadIncrementalHFiles loader = new LoadIncrementalHFiles(conf);
+        loader.doBulkLoad(new Path(args[1]), hTable);
+    }
+    
   }
 }
